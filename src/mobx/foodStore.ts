@@ -1,12 +1,12 @@
-import { create } from "zustand";
-import { subscribeWithSelector } from "zustand/middleware";
+import { create } from 'zustand'
+import { subscribeWithSelector } from 'zustand/middleware'
 
 type TFoodStoreState = {
-  fish: number;
-  addOneFish: () => void;
-  removeOneFish: () => void;
-  removeAllFish: () => void;
-};
+  fish: number
+  addOneFish: () => void
+  removeOneFish: () => void
+  removeAllFish: () => void
+}
 
 export const useFoodStore = create<TFoodStoreState>()(
   subscribeWithSelector((set) => ({
@@ -14,10 +14,10 @@ export const useFoodStore = create<TFoodStoreState>()(
     mouse: 0,
     addOneFish: () => set((state) => ({ fish: state.fish + 1 })),
     removeOneFish: () => {
-      set((state) => ({ fish: state.fish - 1 }));
+      set((state) => ({ fish: state.fish - 1 }))
     },
     removeAllFish: () => {
-      set({ fish: 0 });
+      set({ fish: 0 })
     },
   }))
-);
+)

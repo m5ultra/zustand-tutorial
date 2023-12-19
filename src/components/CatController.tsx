@@ -1,10 +1,28 @@
-import React from "react";
-import { useCatStore } from "../stores/catStore";
+import { useCatsStore } from '../mobx/catStore'
+import { shallow } from 'zustand/shallow'
 
 export const CatController = () => {
-  //   const { increaseBigCats, increaseSmallCats } = useCatStore();
-  const increaseBigCats = useCatStore.use.increaseBigCats();
-  const increaseSmallCats = useCatStore.use.increaseSmallCats();
+  // 01.会有比不要渲染
+  // const { increaseBigCats, increaseSmallCats } = useCatsStore()
+
+  // withSelectors
+  // const increaseBigCats = useCatsStore.use.increaseBigCats()
+  // const increaseSmallCats = useCatsStore.use.increaseSmallCats()
+
+  // 03.0带比较函数
+  // const { increaseBigCats, increaseSmallCats } = useCatsStore(
+  //   (status) => ({
+  //     increaseBigCats: status.increaseBigCats,
+  //     increaseSmallCats: status.increaseSmallCats,
+  //   }),
+  //   shallow
+  // )
+
+  // 03.1带比较函数
+  const [increaseBigCats, increaseSmallCats] = useCatsStore(
+    (state) => [state.increaseBigCats, state.increaseSmallCats],
+    shallow
+  )
 
   return (
     <div className="box">
@@ -15,5 +33,5 @@ export const CatController = () => {
         <button onClick={increaseSmallCats}>add small cats</button>
       </div>
     </div>
-  );
-};
+  )
+}

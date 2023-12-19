@@ -1,7 +1,16 @@
-import { useCatStore } from "../stores/catStore";
+import { useCatsStore } from '../mobx/catStore'
+import { shallow } from 'zustand/shallow'
 
 export const CatBox2 = () => {
-  const bigCats = useCatStore((state) => state.cats.bigCats);
+  // 不会有多余渲染
+  // const bigCats = useCatsStore((state) => state.cats.bigCats)
+
+  // 会有多余渲染 smallCats
+  // const {
+  //   cats: { bigCats },
+  // } = useCatsStore()
+
+  const bigCats = useCatsStore((state) => [state.cats.bigCats], shallow)
 
   return (
     <div className="box">
@@ -9,5 +18,5 @@ export const CatBox2 = () => {
       <p>big cats: {bigCats}</p>
       <p>{Math.random()}</p>
     </div>
-  );
-};
+  )
+}
