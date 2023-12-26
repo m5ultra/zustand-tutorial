@@ -1,5 +1,6 @@
 import { useBearStore } from '../mobx/bearStore'
-import { useFoodStore } from '../mobx/foodStore.ts'
+// import { useFoodStore } from '../mobx/foodStore.ts'
+import { useFoodStore } from '../mobx/简化Store.ts'
 import { useEffect, useState } from 'react'
 import { shallow } from 'zustand/shallow'
 
