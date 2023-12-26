@@ -1,4 +1,4 @@
-import { useCatsStore } from '../mobx/catStore'
+import { useCatsStore } from '../mobx/catStore.最终推荐写法.ts'
 import { shallow } from 'zustand/shallow'
 
 export const CatBox2 = () => {

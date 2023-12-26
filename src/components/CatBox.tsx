@@ -1,4 +1,11 @@
-import { useCatsStore } from '../mobx/catStore'
+// import { useCatsStore } from '../mobx/catStore'
+import {
+  useCatsStore,
+  increaseSmallCats,
+  increaseBigCats,
+  summeryFunc,
+} from '../mobx/catStore.最终推荐写法.ts'
+import { shallow } from 'zustand/shallow'
 
 export const CatBox = () => {
   // 01.单个导出
@@ -10,12 +17,15 @@ export const CatBox = () => {
   // console.log(summery)
 
   // 02. 如果需要所有状态
-  const {
-    cats: { bigCats, smallCats },
-    increaseSmallCats,
-    increaseBigCats,
-    summeryFunc,
-  } = useCatsStore()
+  // const {
+  //   cats: { bigCats, smallCats },
+  //   increaseSmallCats,
+  //   increaseBigCats,
+  //   summeryFunc,
+  // } = useCatsStore()
+
+  const { bigCats, smallCats } = useCatsStore((state) => state.cats, shallow)
+
   console.log(summeryFunc())
 
   return (

@@ -9,16 +9,7 @@ import {
   subscribeWithSelector,
 } from 'zustand/middleware'
 import { StateCreator } from 'zustand'
-
-interface ICatStoreState {
-  cats: {
-    bigCats: number
-    smallCats: number
-  }
-  increaseBigCats: () => void
-  increaseSmallCats: () => void
-  summeryFunc: () => string
-}
+import { produce } from 'immer'
 
 // export const useCatsStore = create<ICatStoreState>()((set) => ({
 //   cats: {
@@ -84,36 +75,24 @@ interface ICatStoreState {
 
 // withSelector > create[createWithEqualityFn] > immer > devtools > subscribeWithSelector > persist
 
+const initVal = {
+  cats: {
+    bigCats: 0,
+    smallCats: 0,
+  },
+}
 const createCatSlice: StateCreator<
-  ICatStoreState,
+  typeof initVal,
   [
     ['zustand/immer', never],
     ['zustand/devtools', unknown],
     ['zustand/subscribeWithSelector', never],
     ['zustand/persist', unknown],
   ]
-> = (set, get) => ({
-  cats: {
-    bigCats: 0,
-    smallCats: 0,
-  },
-  increaseBigCats: () =>
-    set((state) => {
-      state.cats.bigCats++
-      // 不需要返回
-    }),
-  increaseSmallCats: () =>
-    set((state) => {
-      state.cats.smallCats++
-    }),
-  summeryFunc: () => {
-    const total = get().cats.bigCats + get().cats.smallCats
-    return `There are ${total} cats in total`
-  },
-})
+> = () => initVal
 
 export const useCatsStore = createSelectors(
-  createWithEqualityFn<ICatStoreState>()(
+  createWithEqualityFn<typeof initVal>()(
     immer(
       devtools(
         subscribeWithSelector(
@@ -136,3 +115,25 @@ export const useCatsStore = createSelectors(
     )
   )
 )
+
+export const increaseBigCats = () =>
+  useCatsStore.setState(
+    produce((draft) => {
+      draft.cats.bigCats++
+    })
+  )
+
+export const increaseSmallCats = () =>
+  useCatsStore.setState(
+    produce((draft) => {
+      draft.cats.smallCats = draft.cats.smallCats + 5
+    })
+  )
+
+export const summeryFunc = () => {
+  // total 不会是响应式的
+  const total =
+    useCatsStore.getState().cats.bigCats +
+    useCatsStore.getState().cats.smallCats
+  return `There are ${total} cats in total. `
+}

@@ -4,23 +4,24 @@ import { immer } from 'zustand/middleware/immer'
 
 const initTestValue = {
   fish: 0,
-  mouse: 0
+  mouse: 0,
 }
 
-export const useTestStore = create<typeof initTestValue>()(
+export const useFoodStore = create<typeof initTestValue>()(
   immer(
     devtools(
       subscribeWithSelector(
-        persist(() => initTestValue, { name: 'test_store ' })
+        persist(() => initTestValue, { name: 'fish_store ' })
       ),
-      { name: 'test_store' }
+      { name: 'fish_store' }
     )
   )
 )
 
-export const addOneFish = () => useTestStore.setState((state) => state.fish + 1)
+export const addOneFish = () =>
+  useFoodStore.setState((state) => ({ fish: state.fish + 1 }))
 
 export const removeOneFish = () =>
-  useTestStore.setState((state) => state.fish - 1)
+  useFoodStore.setState((state) => ({ fish: state.fish - 1 }))
 
-export const removeAllFish = () => useTestStore.setState({ fish: 0 })
+export const removeAllFish = () => useFoodStore.setState({ fish: 0 })

@@ -17,6 +17,7 @@ export const BearBox = () => {
   const [bgColor, setBgColor] = useState<
     'lightpink' | 'lightgreen' | undefined
   >(useFoodStore.getState().fish > 5 ? 'lightgreen' : 'lightpink')
+
   useEffect(() => {
     // const unsub = useFoodStore.subscribe((state, prevState) => {
     //   console.log(state, prevState, '999')
@@ -30,6 +31,7 @@ export const BearBox = () => {
     const unsubscribe = useFoodStore.subscribe(
       (state) => state.fish,
       (fish, prevFish) => {
+        debugger
         if (fish == prevFish) {
           if (fish <= 5) {
             setBgColor('lightpink')
@@ -64,7 +66,7 @@ export const BearBox = () => {
       <div>
         <button onClick={increasePopulation}>add bear</button>
         <button onClick={removeAllBears}>remove all bears</button>
-        {/* 清除持久化的状态 */}
+        {/* 清除持久化的状态 但是不是重置store中数据 */}
         <button onClick={useBearStore.persist.clearStorage}>clear bears</button>
       </div>
     </div>
